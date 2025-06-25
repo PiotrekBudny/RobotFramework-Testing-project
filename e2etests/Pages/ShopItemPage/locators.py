@@ -1,0 +1,1 @@
+H2_Name_Locator = "xpath=//h2[@class='name']"
