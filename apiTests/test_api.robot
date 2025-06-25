@@ -18,7 +18,7 @@ Will Return Product list with Get All Products method
 
     Valid Get All Products List Response Was Returned    ${response}
 
-Should Confirm User Is Not Found When User Detals Are Invalid
+Should Confirm User Is Not Found When User Details Are Invalid
     [Tags]    Functionality
     [Setup]    Create API Session
 
