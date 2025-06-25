@@ -1,6 +1,9 @@
 *** Settings ***
 Library           RequestsLibrary
+Library           resources/DataGenerator.py
+Library           resources/UserRequestBuilder.py
 Resource          api_keywords.robot
+Resource          api_assertion_keywords.robot
 Variables         api_variables.py
 
 *** Test Cases ***
@@ -11,12 +14,9 @@ Will Return Product list with Get All Products method
     ${expected_response_code_int}=    Evaluate    int('200')  
     ${expcted_reponse_products_list_length}=    Set Variable    34
 
-    ${response}=    Get All Products List
+    ${response}=    Perform Get All Products List Request
 
-    ${json}=    Convert to Json Object    ${response}
-    Status Should Be    200    ${response}
-    Should Be Equal    ${json['responseCode']}    ${expected_response_code_int}
-    Length Should Be    ${json['products']}    ${expcted_reponse_products_list_length}
+    Valid Get All Products List Response Was Returned    ${response}
 
 Should Confirm User Is Not Found When User Detals Are Invalid
     [Tags]    Functionality
@@ -24,15 +24,22 @@ Should Confirm User Is Not Found When User Detals Are Invalid
 
     ${email}=    Set Variable    invalidMail@invalidMail.pl
     ${user_password}=    Set Variable    invalidPassword
-    ${expected_response_code}=    Set Variable    404
-    ${expected_response_message}=   Set Variable    User not found!   
     
-    ${response}=    Verify Login    ${email}    ${user_password}
-    ${json}=    Convert to Json Object    ${response}
+    ${response}=    Perform Verify Login Request    ${email}    ${user_password}
+    Not Existing User Response Was Returned    ${response}
 
-    Status Should Be    200    ${response}
-    Should Be Equal As Integers    ${json['responseCode']}    ${expected_response_code}
-    Should Be Equal    ${json['message']}    ${expected_response_message}
+Can successfully register user account
+    [Tags]    Functionality
+    [Setup]    Create API Session
+    
+    ${email}=    Generate Email
+    ${user_password}=    Generate Password
+    ${user_request}=    Build User Registration Form Data    ${email}   ${user_password}
 
+    ${create_account_response}=    Perform Create Account Request    ${user_request}
+    ${verify_login_response}=    Perform Verify Login Request    ${email}    ${user_password}
+    
+    User Created Response Was Returned    ${create_account_response}
+    User Exists Response Was Returned    ${verify_login_response}
 
-
+    [Teardown]    Perform Delete Account Request    ${email}    ${user_password}
