@@ -10,18 +10,15 @@ ${VerifyLoginUrl}    /verifyLogin
 Create API Session
     Create Session    apiSession    ${BASE_URL}
 
-Create API Session With form HEADERS
-    &{HEADERS}=    Create Dictionary    Content-Type=application/x-www-form-urlencoded
-    Create Session    apiSessionWithHeaders    ${BASE_URL}    headers=${HEADERS}
-
 Get All Products List
     ${response}=    GET On Session    apiSession    ${ProductListUrl}
     [Return]    ${response}
 
 Verify Login
-    [Arguments]    ${user_name}    ${user_password}
-    ${formData}=    Create Dictionary    username=${user_name}    password=${user_password}
-    ${response}=    POST On Session    apiSessionWithHeaders    ${VerifyLoginUrl}    data=${formData}
+    [Arguments]    ${email}    ${user_password}
+    ${headers}=    Create Dictionary    Content-Type=application/x-www-form-urlencoded
+    ${formData}=    Create Dictionary    email=${email}    password=${user_password}
+    ${response}=    POST On Session    apiSession    ${VerifyLoginUrl}    data=${formData}    headers=${headers}    
     [Return]    ${response}
 
 Convert to Json Object

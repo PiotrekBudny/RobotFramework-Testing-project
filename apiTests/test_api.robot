@@ -20,14 +20,14 @@ Will Return Product list with Get All Products method
 
 Should Confirm User Is Not Found When User Detals Are Invalid
     [Tags]    Functionality
-    [Setup]    Create API Session With form HEADERS
+    [Setup]    Create API Session
 
-    ${user_name}=    Set Variable    invalidMail@invalidMail.pl
+    ${email}=    Set Variable    invalidMail@invalidMail.pl
     ${user_password}=    Set Variable    invalidPassword
     ${expected_response_code}=    Set Variable    404
     ${expected_response_message}=   Set Variable    User not found!   
     
-    ${response}=    Verify Login    ${user_name}    ${user_password}
+    ${response}=    Verify Login    ${email}    ${user_password}
     ${json}=    Convert to Json Object    ${response}
 
     Status Should Be    200    ${response}
