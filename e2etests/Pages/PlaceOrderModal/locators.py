@@ -1,0 +1,8 @@
+order_modal_name_locator = "xpath=//*[@id='name']"
+order_modal_country_locator = "xpath=//*[@id='country']"
+order_modal_city_locator = "xpath=//*[@id='city']"
+order_modal_card_locator = "xpath=//*[@id='card']"
+order_modal_month_locator = "xpath=//*[@id='month']"
+order_modal_year_locator = "xpath=//*[@id='year']"
+order_modal_purchase_button_locator = "xpath=/html/body/div[3]/div/div/div[3]/button[2]"
+order_modal_close_button_locator = "xpath=/html/body/div[3]/div/div/div[3]/button[1]"

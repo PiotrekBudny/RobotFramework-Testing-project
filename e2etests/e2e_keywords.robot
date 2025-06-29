@@ -1,6 +1,7 @@
 *** Settings ***
 Variables    e2e_variables.py
 Library    SeleniumLibrary
+Library    Collections
 
 *** Keywords ***
 Open Browser Before Test
